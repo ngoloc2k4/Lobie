@@ -1,0 +1,682 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Lobie Shop</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+      :root {
+        --primaryColor: #045a2b;
+        --secondaryColor: #ffc107;
+        --whiteColor: #fff;
+        --blackColor: #222;
+        --softGreenColor: #9df2ee;
+        --darkGrayColor: #a7a7a7;
+        --grayColor: #cfcfcf;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        outline: none;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      body {
+        width: 100%;
+        height: auto;
+        display: flex;
+      }
+      .sidebar {
+        height: 100%;
+        width: 18%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: fixed;
+        padding: 2%;
+        background-color: var(--primaryColor);
+        color: var(--whiteColor);
+      }
+
+      .sidebar-menus {
+        display: flex;
+        flex-direction: column;
+      }
+      .sidebar-menus a,
+      .sidebar-logout a {
+        padding: 5% 8%;
+        margin: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
+        text-decoration: none;
+        color: var(--whiteColor);
+      }
+
+      .sidebar-menus a ion-icon,
+      .sidebar-logout a ion-icon {
+        font-size: 20px;
+      }
+      .sidebar-menus a:hover,
+      .sidebar-logout a:hover {
+        background-color: var(--secondaryColor);
+        border-radius: 50px;
+      }
+
+      .main {
+        position: fixed;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 78%;
+        height: 100%;
+        /* height: max-content; */
+        min-height: 100vh;
+        padding: 2%;
+        background-color: var(--softGreenColor);
+        margin-left: 250px;
+      }
+      .main-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      /* hide menu */
+      .search {
+        width: 60%;
+        height: 40px;
+        display: flex;
+        justify-content: space-around;
+        background-color: var(--whiteColor);
+        border-radius: 20px;
+      }
+      .search input {
+        width: 80%;
+        height: 100%;
+        padding: 20px;
+        border: none;
+        border-radius: 20px;
+      }
+      .search-btn {
+        background-color: var(--secondaryColor);
+        color: var(--whiteColor);
+        border: none;
+        border-radius: 20px;
+        width: 120px;
+        cursor: pointer;
+      }
+      .search-btn:hover {
+        background-color: var(--primaryColor);
+      }
+      .search:hover {
+        box-shadow: var(--darkGrayColor) 0px 8px 24px;
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .cart,
+      .user {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--whiteColor);
+        font-size: 20px;
+        color: var(--primaryColor);
+        text-decoration: none;
+        padding: 0 10px;
+        height: 40px;
+        border-radius: 50%;
+      }
+      .cart:hover,
+      .user:hover {
+        box-shadow: var(--grayColor) 0px 8px 24px;
+      }
+      .main-highlight {
+        margin: 3% 0px;
+        padding: 2%;
+        background-color: var(--secondaryColor);
+        border-radius: 8px;
+      }
+      .main-header {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .main-title {
+        font-size: 20px;
+      }
+      .main-arrow {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .back,
+      .next {
+        cursor: pointer;
+      }
+      .back:hover,
+      .next:hover {
+        color: blue;
+      }
+
+      .main-menus {
+        min-height: 100%;
+        background-color: var(--grayColor);
+        padding: 2%;
+        border-radius: 8px;
+      }
+
+      .main-filter {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 1.5rem;
+        gap: 1rem;
+      }
+
+      .back-menus,
+      .next-menus {
+        cursor: pointer;
+      }
+      .back-menus:hover,
+      .next-menus:hover {
+        color: var(--primaryColor);
+      }
+      .filter-wrapper {
+        display: flex;
+        justify-content: space-around;
+        overflow-x: hidden;
+        width: 100%;
+        height: 100px;
+        gap: 1rem;
+      }
+      .filter-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        min-width: 80px;
+        height: 100px;
+        background-color: var(--whiteColor);
+        color: var(--blackColor);
+        border-radius: 10%;
+        font-size: 14px;
+        cursor: pointer;
+        border: 1px solid var(--softGreenColor);
+      }
+      .filter-card .filter_icon {
+        display: flex;
+        align-items: center;
+        width: 80%;
+        height: 60%;
+        background-color: var(--softGreenColor);
+        color: var(--primaryColor);
+        border-radius: 8px;
+      }
+      .filter-card:hover {
+        background-color: var(--primaryColor);
+        color: var(--whiteColor);
+      }
+
+      .main-detail {
+        margin: 1rem 0 1.5rem 0;
+      }
+      .detail-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        width: 100%;
+        margin-top: 1rem;
+        gap: 2%;
+        border-radius: 10px;
+      }
+      .detail-card {
+        min-height: 280px;
+        height: 100%;
+        background-color: var(--whiteColor);
+        border-radius: 10px;
+        margin: 1% 0;
+        box-shadow: #535151 0px 2px 8px 0px;
+      }
+      .detail-img {
+        width: 100px;
+        height: 180px;
+        border-radius: 10px;
+        object-fit: cover;
+        object-position: center;
+        filter: brightness(0.8);
+      }
+
+      .detail-desc {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 3%;
+        width: 100%;
+        height: 0;
+      }
+      .detail-sub {
+        font-size: 12px;
+        color: var(--darkGrayColor);
+        letter-spacing: 0.5;
+        margin: 1% 0;
+      }
+
+      .product-desc {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .price {
+        color: var(--primaryColor);
+      }
+      .detail-favourite {
+        font-size: 24px;
+        float: right;
+        width: 24px;
+        height: 24px;
+      }
+      .add-to-cart-btn {
+        display: inline-block;
+        margin: 55px -20px 25px 195px;
+        width: 100px;
+        height: 55px;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .add-to-cart-btn:hover {
+        background-color: #0056b3;
+      }
+
+      /* mobile version */
+      @media screen and (max-width: 600px) {
+        .sidebar {
+          display: none;
+        }
+        .main {
+          margin-left: 0;
+        }
+        .menu-toggle {
+          display: block;
+          text-decoration: none;
+          font-size: 20px;
+          background-color: var(--whiteColor);
+          color: var(--primaryColor);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 10px;
+          height: 40px;
+          border-radius: 50%;
+          z-index: 3;
+        }
+        .sidebar.active {
+          z-index: 10;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- sidebar -->
+    <div class="sidebar">
+      <!-- logo -->
+      <h1 class="logo">Foodtime</h1>
+      <!-- list-menu -->
+      <div class="sidebar-menus">
+        <a href="#"> <ion-icon name="storefront-outline"></ion-icon>Home </a>
+        <a href="#"> <ion-icon name="receipt-outline"></ion-icon>Bills </a>
+        <a href="#"> <ion-icon name="wallet-outline"></ion-icon>Wallet </a>
+        <a href="#">
+          <ion-icon name="notifications-outline"></ion-icon>Notification</a
+        >
+        <a href="#">
+          <ion-icon name="chatbubbles-outline"></ion-icon>Contact
+        </a>
+      </div>
+      <!-- logout -->
+      <div class="sidebar-logout">
+        <a href="#"> <ion-icon name="log-out-outline"></ion-icon>Logout </a>
+      </div>
+    </div>
+    <!-- main -->
+    <div class="main">
+      <!-- main-navbar -->
+      <div class="main-navbar">
+        <!-- menu when appear on mobile version -->
+        <ion-icon class="menu-toggle" name="menu-outline"></ion-icon>
+        <!-- search bar -->
+        <div class="search">
+          <input type="text" placeholder="Search any thing you want!" />
+          <button class="search-btn">
+            <ion-icon name="search-outline"></ion-icon>Search
+          </button>
+        </div>
+        <!-- profile on left side of navbar -->
+        <a href="#" class="cart"><ion-icon name="cart-outline"></ion-icon></a>
+        <a href="#" class="user">
+          <ion-icon name="person-outline"></ion-icon>
+        </a>
+      </div>
+      <!-- main highlight -->
+      <div class="main-highlight">
+        <div class="main-header">
+          <h2 class="main-title">Recommendation</h2>
+          <div class="main-arrow">
+            <ion-icon
+              class="back"
+              name="chevron-back-circle-outline"
+            ></ion-icon>
+            <ion-icon
+              class="next"
+              name="chevron-forward-circle-outline"
+            ></ion-icon>
+          </div>
+          <!-- highlight menu -->
+        </div>
+      </div>
+      <!-- main menu / order -->
+      <div class="main-menus">
+        <div class="main-filter">
+          <div class="main-filter-left">
+            <h2 class="main-title">Menu <br />Category</h2>
+            <div class="main-arrow">
+              <ion-icon
+                class="back-menus"
+                name="chevron-back-circle-outline"
+              ></ion-icon>
+              <ion-icon
+                class="next-menus"
+                name="chevron-forward-circle-outline"
+              ></ion-icon>
+            </div>
+          </div>
+          <div class="filter-wrapper">
+            <div class="filter-card">
+              <div class="filter-icon">
+                <ion-icon name="restaurant-outline"></ion-icon>
+              </div>
+              <p>All Menus</p>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon">
+                <ion-icon name="fast-food-outline"></ion-icon>
+              </div>
+              <p>Burger</p>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon">
+                <ion-icon name="pizza-outline"></ion-icon>
+              </div>
+              <p>Pizza</p>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon">
+                <ion-icon name="wine-outline"></ion-icon>
+              </div>
+              <p>Wine</p>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon">
+                <ion-icon name="ice-cream-outline"></ion-icon>
+              </div>
+              <p>Ice Cream</p>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon">
+                <ion-icon name="ice-cream-outline"></ion-icon>
+              </div>
+              <p>Ice Cream</p>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon">
+                <ion-icon name="ice-cream-outline"></ion-icon>
+              </div>
+              <p>Ice Cream</p>
+            </div>
+            <div class="filter-card">
+              <div class="filter-icon">
+                <ion-icon name="ice-cream-outline"></ion-icon>
+              </div>
+              <p>Ice Cream</p>
+            </div>
+          </div>
+        </div>
+        <hr class="divider" />
+        <div class="main-detail">
+          <h2 class="main-title">Choose Order</h2>
+          <div class="detail-wrapper">
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <div class="detail-card">
+              <img src="images/burger.jpg" alt="burger" />
+              <div class="detail-desc">
+                <div class="detail-name">
+                  <h4>Burger</h4>
+                  <p class="detail-sub">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                  <p class="price">$10</p>
+                </div>
+              </div>
+              <ion-icon
+                class="detail-favourite"
+                name="bookmark-outline"
+              ></ion-icon>
+              <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="js/script.js"></script>
+  <script
+    type="module"
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+  ></script>
+  <script
+    nomodule
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+  ></script>
+
+  <script>
+    // Bookmark Functionality
+    function addToBookmarks(item) {
+      let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+      bookmarks.push(item);
+      localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+    }
+
+    // Add to Cart Functionality
+    function addToCart(item) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(item);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    // Example of calling the functions
+    const bookmarkBtn = document.querySelector(".bookmark-btn");
+    const addToCartBtn = document.querySelector(".add-to-cart-btn");
+
+    bookmarkBtn.addEventListener("click", function () {
+      addToBookmarks("Item to bookmark");
+      // You can replace 'Item to bookmark' with the actual item data
+      alert("Item bookmarked!");
+    });
+
+    addToCartBtn.addEventListener("click", function () {
+      addToCart("Item to add to cart");
+      // You can replace 'Item to add to cart' with the actual item data
+      alert("Item added to cart!");
+    });
+  </script>
+
+  <!-- add javascript -->
+  <!-- code jquery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</html>
