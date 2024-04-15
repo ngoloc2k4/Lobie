@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(to right, #f1f1f1, #e1e1e1);
+        color: black;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: black;
+        font-size: 2.5rem;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 2rem;
+        border-radius: 1rem;
+        background-color: white;
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid #ccc;
+        width: 100%;
+        max-width: 300px;
+        font-size: 1rem;
+        color: black;
+        background-color: #f1f1f1;
+        box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+      }
+      label {
+        color: black;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        max-width: 300px;
+        display: block;
+        margin: 0 auto;
+        text-align: left;
+      }
+      .forgot {
+        color: black;
+        font-size: 1rem;
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+        width: 100%;
+        max-width: 300px;
+        display: block;
+        margin: 0 auto;
+      }
+      input[type="submit"] {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        background-color: #036cdd;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+      input[type="submit"]:hover {
+        background-color: #000ba5;
+        box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.2);
+        transform: scale(1.1);
+        transition: all 0.3s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <!-- login form -->
+    <form>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" />
+      <!-- <p class="forgot">
+        Forgot password?<a href="register.html">Click here</a>
+      </p> -->
+      <input type="submit" value="Login" onclick="alert()" />
+    </form>
+  </body>
+  <script>
+    const users = [
+      { username: "admin", password: "admin" },
+      { username: "user", password: "user" },
+    ];
+    const form = document.querySelector("form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const user = users.find(
+        (user) => user.username === username && user.password === password
+      );
+      if (user) {
+        alert("Login successful" + user.username);
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid username or password");
+        form.reset();
+        document.getElementById("username").focus();
+        return false;
+      }
+    });
+
+    // forgot password
+    const forgot = document.querySelector(".forgot");
+    forgot.addEventListener("click", () => {
+      alert("Forgot password?");
+      window.location.href = "forgot.html";
+    });
+  </script>
+</html>

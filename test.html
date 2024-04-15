@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Website</title>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .sidebar {
+      width: 300px;
+      height: 100vh;
+      background-color: #f0f0f0;
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    .content {
+      width: 100% - 250px;}
+</style>
+    <script>
+      function showHomePage() {
+        document.getElementById("content").innerHTML = `
+          <h2>Homepage</h2>
+          <div>
+            <img src="banner.jpg" alt="Banner">
+            <p>Welcome to our website!</p>
+            <button onclick="showLogin()">Login</button>
+          </div>
+        `;
+      }
+
+      function showShopping() {
+        document.getElementById("content").innerHTML = `
+          <h2>Shopping</h2>
+          <!-- Add shopping list here -->
+        `;
+        // Fetch and display shopping list via AJAX or add static content
+      }
+
+      function showCart() {
+        document.getElementById("content").innerHTML = `
+          <h2>Cart</h2>
+          <!-- Add cart content here -->
+        `;
+        // Fetch and display cart content via AJAX or add static content
+      }
+
+      function showContact() {
+        document.getElementById("content").innerHTML = `
+          <h2>Contact</h2>
+          <!-- Add contact information here -->
+        `;
+      }
+
+      function logOut() {
+        // Implement logout functionality
+      }
+
+      function showLogin() {
+        // Implement login functionality
+      }
+    </script>
+  </body>
+</html>

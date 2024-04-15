@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="cart-container">
+      <h2>Giỏ hàng</h2>
+      <div class="cart-items"></div>
+      <div class="cart-total">Tổng tiền: $0</div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        showCartItems();
+      });
+
+      function showCartItems() {
+        const cartItemsContainer = document.querySelector(".cart-items");
+        let cartTotal = 0;
+
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        cart.forEach((item) => {
+          const cartItemDiv = document.createElement("div");
+          cartItemDiv.classList.add("cart-item");
+          cartItemDiv.innerHTML = `
+                                          <div class="cart-item-details">
+                                         <span class="cart-item-name">${
+                                           item.name
+                                         }</span>         
+                                           <span class="cart-item-price">$${item.price.toFixed(
+                                             2
+                                           )}</span>
+                                                  </div>
+                                                 `;
+          cartItemsContainer.appendChild(cartItemDiv);
+
+          cartTotal += item.price;
+        });
+
+        const cartTotalElement = document.querySelector(".cart-total");
+        cartTotalElement.textContent = `Tổng tiền: $${cartTotal.toFixed(2)}`;
+      }
+    </script>
+  </body>
+</html>
